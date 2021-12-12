@@ -18,8 +18,7 @@ const defaults = {
     'boxes': '/boxes',
     'users': '/users',
     'statistics': '/statistics',
-    'management': '/management',
-    'campaign' : '/campaigns'
+    'management': '/management'
   },
   'jwt': {
     'secret': 'OH GOD THIS IS SO INSECURE PLS CHANGE ME', // should be at least 32 characters

@@ -68,7 +68,7 @@ const printRoutes = function printRoutes (req, res) {
   res.end(lines.join('\n'));
 };
 
-const { boxes: boxesPath, campaign: campaignsPath, users: usersPath, statistics: statisticsPath, management: managementPath } = config.get('routes');
+const { boxes: boxesPath, users: usersPath, statistics: statisticsPath, management: managementPath } = config.get('routes');
 // the ones matching first are used
 // case is ignored
 const routes = {
@@ -92,13 +92,7 @@ const routes = {
     { path: `${usersPath}/password-reset`, method: 'post', handler: usersController.resetPassword, reference: 'api-Users-password-reset' },
     { path: `${usersPath}/confirm-email`, method: 'post', handler: usersController.confirmEmailAddress, reference: 'api-Users-confirm-email' },
     { path: `${usersPath}/sign-in`, method: 'post', handler: usersController.signIn, reference: 'api-Users-sign-in' },
-    { path: `${usersPath}/refresh-auth`, method: 'post', handler: usersController.refreshJWT, reference: 'api-Users-refresh-auth' },
-    { path: `${usersPath}/campaign`, method: 'post', handler: campaignsController.postNewCampaign, reference: 'api-Campaign-postNewCampaign' },
-    { path: `${usersPath}/campaigns`, method: 'get', handler: campaignsController.getCampaigns, reference: 'api-Campaigns-getCampaigns' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'get', handler: campaignsController.getCampaign, reference: 'api-Campaigns-getCampaign' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'put', handler: campaignsController.updateCampaign, reference: 'api-Campaigns-updateCampaign' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'del', handler: campaignsController.deleteCampaign, reference: 'api-Campaigns-deleteCampaign' },
-    //{ path: `${usersPath}/campaign`, method: 'put', handler: campaignsController.updateCampaign, reference: 'api-Campaigns-updateCampaign' }
+    { path: `${usersPath}/refresh-auth`, method: 'post', handler: usersController.refreshJWT, reference: 'api-Users-refresh-auth' }
   ],
   'auth': [
     { path: `${usersPath}/me`, method: 'get', handler: usersController.getUser, reference: 'api-Users-getUser' },
@@ -111,9 +105,8 @@ const routes = {
     { path: `${boxesPath}/:boxId/:sensorId/measurements`, method: 'del', handler: sensorsController.deleteSensorData, reference: 'api-Measurements-deleteMeasurements' },
     { path: `${usersPath}/sign-out`, method: 'post', handler: usersController.signOut, reference: 'api-Users-sign-out' },
     { path: `${usersPath}/me`, method: 'del', handler: usersController.deleteUser, reference: 'api-Users-deleteUser' },
-    { path: `${usersPath}/me/resend-email-confirmation`, method: 'post', handler: usersController.requestEmailConfirmation, reference: 'api-Users-request-email-confirmation' }
-    //{ path: `${usersPath}/campaign`, method: 'post', handler: campaignsController.postNewCampaign, reference: 'api-Campaign-postNewCampaign' }
-    //{ path: `${usersPath}/campaign`, method: 'get', handler: campaignsController.getCampaigns, reference: 'api-Campaign-getCampaigns' }
+    { path: `${usersPath}/me/resend-email-confirmation`, method: 'post', handler: usersController.requestEmailConfirmation, reference: 'api-Users-request-email-confirmation' },
+    { path: `${usersPath}/campaign`, method: 'post', handler: campaignsController.postNewCampaign, reference: 'api-Campaign-postNewCampaign' }
   ],
   'management': [
     { path: `${managementPath}/boxes`, method: 'get', handler: managementController.listBoxes, reference: 'api-Admin-listBoxes' },

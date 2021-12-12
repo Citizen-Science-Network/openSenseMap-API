@@ -68,7 +68,7 @@ const printRoutes = function printRoutes (req, res) {
   res.end(lines.join('\n'));
 };
 
-const { boxes: boxesPath, campaign: campaignsPath, users: usersPath, statistics: statisticsPath, management: managementPath } = config.get('routes');
+const { boxes: boxesPath, campaigns: campaignsPath, users: usersPath, statistics: statisticsPath, management: managementPath } = config.get('routes');
 // the ones matching first are used
 // case is ignored
 const routes = {
@@ -93,12 +93,8 @@ const routes = {
     { path: `${usersPath}/confirm-email`, method: 'post', handler: usersController.confirmEmailAddress, reference: 'api-Users-confirm-email' },
     { path: `${usersPath}/sign-in`, method: 'post', handler: usersController.signIn, reference: 'api-Users-sign-in' },
     { path: `${usersPath}/refresh-auth`, method: 'post', handler: usersController.refreshJWT, reference: 'api-Users-refresh-auth' },
-    { path: `${usersPath}/campaign`, method: 'post', handler: campaignsController.postNewCampaign, reference: 'api-Campaign-postNewCampaign' },
-    { path: `${usersPath}/campaigns`, method: 'get', handler: campaignsController.getCampaigns, reference: 'api-Campaigns-getCampaigns' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'get', handler: campaignsController.getCampaign, reference: 'api-Campaigns-getCampaign' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'put', handler: campaignsController.updateCampaign, reference: 'api-Campaigns-updateCampaign' },
-    { path: `${usersPath}/campaign/:campaignId`, method: 'del', handler: campaignsController.deleteCampaign, reference: 'api-Campaigns-deleteCampaign' },
-    //{ path: `${usersPath}/campaign`, method: 'put', handler: campaignsController.updateCampaign, reference: 'api-Campaigns-updateCampaign' }
+    { path: `${usersPath}/campaign`, method: 'post', handler: campaignsController.postNewCampaign, reference: 'api-Campaign-postNewCampaign' }
+    //{ path: `${campaignsPath}`, method: 'get', handler: campaignsController.getCampaigns, reference: 'api-Campaigns-getCampaigns' }
   ],
   'auth': [
     { path: `${usersPath}/me`, method: 'get', handler: usersController.getUser, reference: 'api-Users-getUser' },

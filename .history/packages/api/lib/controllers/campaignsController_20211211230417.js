@@ -97,7 +97,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
  */
  const updateCampaign = async function updateCampaign (req, res, next){
     try {
-      let campaign = await Campaign.findOneAndUpdate({ _id: req._userParams.campaignId}, req._userParams).exec();
+      let campaign = await Campaign.findOneAndUpdate({ _id: req._userParams.campaignId}).exec();
       // update other properties
         
       res.send({ code: 'Ok', data: campaign });

@@ -68,14 +68,28 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
     
    const getCampaign = async function getCampaign(req, res, next) {
     try {
-      let campaign = await Campaign.findById(req._userParams.campaignId).exec();
+      let campaign = await Campaign.findOne({_id: id});
+      console.log(campaign);
       //let campaign = await Campaign.findById(req._userParams.campaignId).exec();
       res.send(201, { message: 'Campaign successfully retrieved', data: campaign });
   
     } catch (err) {
       handleError(err, next);
     }}
+    // content-type is always application/json for this route
+    /*
+    res.header('Content-Type', 'application/json; charset=utf-8');
     
+    const { campaignId } = req._userParams;
+
+    try{
+      const campaign = await Campaign.findCampaignbyId(campaignId); 
+      res.send(campaign)  
+    } catch (err) {
+    handleError(err, next);
+    }
+  };
+  */
    
  /**
  * @api {put} /campaigns/:campaignId Update a campaign
@@ -94,14 +108,23 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
  *  "campaignDetails": "some details",
  *  "phenomena": "Wind Speed"
  * }
- */
+ 
  const updateCampaign = async function updateCampaign (req, res, next){
     try {
-      let campaign = await Campaign.findOneAndUpdate({ _id: req._userParams.campaignId}, req._userParams).exec();
+      const {owner, campaignId} = req._userParams;
+      // update owner
+      if (owner){
+        await Campaign.transferOwnershipOfCampaign(owner, campaignId);
+      }
       // update other properties
-        
+      let campaign = await Campaign.findCampaignbyId(campaignId);
+      await campaign.updateCampaign(req._userParams);
+
+      //post to slack
+
+      postToSlack(`Management Action: Campaign updated: ${req._user.name} (${req.user.email}) just updated "${campaign.title}": <https://opensensemap.org/explore/${box._id}|link>`);
       res.send({ code: 'Ok', data: campaign });
-      //clearCache(['getCampaigns']);
+      clearCache(['getCampaigns']);
     } catch(err){
       handleError(err, next);
     }
@@ -114,21 +137,21 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
  * @apiName deleteCampaign
  * @apiGroup Campaigns
  */
-
-   const deleteCampaign = async function deleteCampaign(req, res, next) {
-
+/**
+  const deleteCampaign = async function deleteCampaign (req, res, next){
+    const { campaignId } = req._userParams; 
 
     try {
-  
-      let deletedCampaign = await Campaign.remove({ _id: req._userParams.campaignId }).exec();
-  
-      res.send({code: 'Ok', msg: 'Campaign deleted'});
-    } catch (err) {
-      handleError(err, next);
-    }
-  
+      const user = await User.findOwnerofCampaign(campaignId);
+      await user.removeCampaign(campaignId);
+      clearCache(['getCampaigns']);
+      postToSlack(`Management Action: Campaign deleted: ${req.user.name}(${req.user.email}) just deleted ${campaignId.join(',')}`);
+    res.send({ campaignId});
+  } catch(err){
+    handleError(err, next);
   }
-
+};
+*/ 
 
   module.exports = {
       postNewCampaign: [
@@ -152,32 +175,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
        getCampaigns 
       ],
       getCampaign: [
-        retrieveParameters([
-          { name: 'campaignId', required: true }
-        ]),
         getCampaign
-      ],
-      updateCampaign: [
-        checkContentType,
-        retrieveParameters([
-          {name: 'campaignId', required:true},
-          {name: 'title', required: true,dataType: 'String'},
-          {name: 'owner', dataType: 'String'},
-          {name: 'aboutMe' ,required: true, dataType: 'String'},
-          {name: 'campaignGoals' ,required: true, dataType: 'String'},
-          {name: 'campaignDetails' ,required: true, dataType: 'String'},
-          {name: 'startDate' ,required: true, dataType: ['RFC 3339']},
-          {name: 'endDate' ,dataType: ['RFC 3339']},
-          {name: 'phenomena', required: true, dataType: ['String']}
-
-        ]),
-        updateCampaign
-      ],
-      deleteCampaign: [
-        retrieveParameters([
-          {name: 'campaignId', required: true}
-        ]),
-        deleteCampaign
       ]
       
   }

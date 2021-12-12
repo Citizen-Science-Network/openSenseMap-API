@@ -97,11 +97,12 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
  */
  const updateCampaign = async function updateCampaign (req, res, next){
     try {
-      let campaign = await Campaign.findOneAndUpdate({ _id: req._userParams.campaignId}, req._userParams).exec();
+      let campaign = await Campaign.findById(req._userParams.campaignId).exec();
       // update other properties
+      campaign = await Campaign.updateCampaign(req._userParams);
         
       res.send({ code: 'Ok', data: campaign });
-      //clearCache(['getCampaigns']);
+      clearCache(['getCampaigns']);
     } catch(err){
       handleError(err, next);
     }
@@ -114,21 +115,21 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
  * @apiName deleteCampaign
  * @apiGroup Campaigns
  */
-
-   const deleteCampaign = async function deleteCampaign(req, res, next) {
-
+/**
+  const deleteCampaign = async function deleteCampaign (req, res, next){
+    const { campaignId } = req._userParams; 
 
     try {
-  
-      let deletedCampaign = await Campaign.remove({ _id: req._userParams.campaignId }).exec();
-  
-      res.send({code: 'Ok', msg: 'Campaign deleted'});
-    } catch (err) {
-      handleError(err, next);
-    }
-  
+      const user = await User.findOwnerofCampaign(campaignId);
+      await user.removeCampaign(campaignId);
+      clearCache(['getCampaigns']);
+      postToSlack(`Management Action: Campaign deleted: ${req.user.name}(${req.user.email}) just deleted ${campaignId.join(',')}`);
+    res.send({ campaignId});
+  } catch(err){
+    handleError(err, next);
   }
-
+};
+*/ 
 
   module.exports = {
       postNewCampaign: [
@@ -156,28 +157,6 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
           { name: 'campaignId', required: true }
         ]),
         getCampaign
-      ],
-      updateCampaign: [
-        checkContentType,
-        retrieveParameters([
-          {name: 'campaignId', required:true},
-          {name: 'title', required: true,dataType: 'String'},
-          {name: 'owner', dataType: 'String'},
-          {name: 'aboutMe' ,required: true, dataType: 'String'},
-          {name: 'campaignGoals' ,required: true, dataType: 'String'},
-          {name: 'campaignDetails' ,required: true, dataType: 'String'},
-          {name: 'startDate' ,required: true, dataType: ['RFC 3339']},
-          {name: 'endDate' ,dataType: ['RFC 3339']},
-          {name: 'phenomena', required: true, dataType: ['String']}
-
-        ]),
-        updateCampaign
-      ],
-      deleteCampaign: [
-        retrieveParameters([
-          {name: 'campaignId', required: true}
-        ]),
-        deleteCampaign
       ]
       
   }

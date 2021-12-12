@@ -358,7 +358,7 @@ const getBoxes = async function getBoxes (req, res, next) {
 
 const getBox = async function getBox (req, res, next) {
   const { format, boxId } = req._userParams;
-  
+  console.log(req._userParams);
 
   try {
     const box = await Box.findBoxById(boxId);

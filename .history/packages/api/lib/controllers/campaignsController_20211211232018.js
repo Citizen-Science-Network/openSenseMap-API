@@ -1,11 +1,14 @@
 'use strict';
 
+
 const { Campaign } = require('@sensebox/opensensemap-api-models');
 
 const { checkContentType } = require('../helpers/apiUtils');
 const { retrieveParameters } = require('../helpers/userParamHelpers');
 const handleError = require('../helpers/errorHandler');
 const { id } = require('apicache');
+
+
 
 
 const postNewCampaign = async function postNewCampaign (req, res, next) {
@@ -17,6 +20,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
       handleError(err, next);
     }
   };
+
 
 ///////////// CRUD FUNCTIONS //////////////////
 
@@ -130,6 +134,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
   }
 
 
+
   module.exports = {
       postNewCampaign: [
           checkContentType,
@@ -147,6 +152,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
           postNewCampaign
 
     
+
       ],
       getCampaigns: [
        getCampaigns 
@@ -182,3 +188,4 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
       
   }
   
+     
