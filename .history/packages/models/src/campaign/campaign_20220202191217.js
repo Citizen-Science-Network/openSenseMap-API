@@ -1,11 +1,8 @@
 'use strict';
 
-
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
-  {model: Box} = require('../box/box'),
   ModelError = require('../modelError');
-
 
 //   Campaign Schema 
 
@@ -46,9 +43,10 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: [String],
+        type: String,
         trim: true,
-        required: true        
+        required: true,
+        enum: ['PM10', 'Wind speed']
     }  
 
 })
@@ -61,29 +59,25 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
      return savedCampaign;
 })}
 
+campaignSchema.statics.getBoxes = function getBoxes(opts= {}){
+    const {polygonDraw} = opts,
+    query= {};
 
-
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
-        
-        let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
-        let boxes = await Box.find({
-            locations: {
-              $geoWithin: {
-                  $geometry: {
-                      type:"Polygon",
-                      coordinates: poly
-                  }
-              }
-          }
-      })
-      return boxes;
-
-    ;}
-
-        
-    
+    if(polygonDraw){
+        query['polygonDraw'] = { '$geoWithin': {  "$geometry" : {
+            "type" : "Polygon",
+            "coordinates" : [ 
+            [ 7.609723909072017, 51.964860054126234], 
+            [7.610432865503185, 51.96324235718944], 
+            [ 7.607901326883251, 51.963361400559506], 
+            [ 7.608403938203196, 51.96423080547393], 
+            [ 7.609723909072017, 51.964860054126234]
+        ] 
+        }
+    }
+}
+console.log(query);
+}}
 
 //campaignSchema.methods.notifyallusers
 

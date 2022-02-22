@@ -10,20 +10,14 @@ const { id } = require('apicache');
 
 const postNewCampaign = async function postNewCampaign (req, res, next) {
     try {
-       let newCampaign = await Campaign.addCampaign(req._userParams);
-       console.log("USER PARAMS POLYGON: " + req._userParams.polygonDraw);
-       let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
-       res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes}});
-                 
-     } catch (err) {
-       handleError(err, next);
-     }
-    // try {
-    //   let foundBoxes = await Campaign.getBoxesWithin();
-    //   res.send(201, {message: 'Found Boxes', data: foundBoxes});
-    // }catch(err){
-    //   handleError(err, next);
-    // }
+      let newCampaign = await Campaign.addCampaign(req._userParams);
+      res.send(201, { message: 'Campaign successfully created', data: newCampaign });
+      let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
+      res.send(201, {message: 'Boxes found', data: foundBoxes});
+            
+    } catch (err) {
+      handleError(err, next);
+    }
   };
 
 ///////////// CRUD FUNCTIONS //////////////////
@@ -150,7 +144,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
               { name: 'campaignDetails', dataType: 'String' },
               { name: 'startDate', dataType: ['RFC 3339']},
               { name: 'endDate', dataType: ['RFC 3339']},
-              { name: 'phenomena', dataType: ['String'] }
+              { name: 'phenomena', dataType: 'String' }
               
           ]),
           postNewCampaign

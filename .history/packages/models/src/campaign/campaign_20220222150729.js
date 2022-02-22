@@ -80,10 +80,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       })
       return boxes;
 
-    ;}
-
-        
-    
+    ;}   
+ 
 
 //campaignSchema.methods.notifyallusers
 

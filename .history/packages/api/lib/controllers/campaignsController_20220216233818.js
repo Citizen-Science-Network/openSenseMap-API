@@ -13,6 +13,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
        let newCampaign = await Campaign.addCampaign(req._userParams);
        console.log("USER PARAMS POLYGON: " + req._userParams.polygonDraw);
        let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
+       console.log('FOUND BOXES ' + foundBoxes);
        res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes}});
                  
      } catch (err) {
@@ -150,7 +151,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
               { name: 'campaignDetails', dataType: 'String' },
               { name: 'startDate', dataType: ['RFC 3339']},
               { name: 'endDate', dataType: ['RFC 3339']},
-              { name: 'phenomena', dataType: ['String'] }
+              { name: 'phenomena', dataType: 'String' }
               
           ]),
           postNewCampaign

@@ -40,7 +40,6 @@ const { model: Box } = require('./src/box/box'),
   { model: Sensor } = require('./src/sensor/sensor'),
   { model: User } = require('./src/user/user'),
   { model: Campaign} = require('./src/campaign/campaign'),
-  { model: Thread} = require('./src/thread/thread'),
   utils = require('./src/utils'),
   decoding = require('./src/measurement/decoding'),
   db = require('./src/db');

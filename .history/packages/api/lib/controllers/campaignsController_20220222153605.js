@@ -143,7 +143,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
           checkContentType,
           retrieveParameters([
               { name: 'title', dataType: 'String' },
-              { name: 'polygonDraw', dataType: 'any'},
+              { name: 'polygonDraw', dataType: 'String'},
               { name: 'owner', dataType: 'String' },
               { name: 'aboutMe', dataType: 'String'},
               { name: 'campaignGoals', dataType: 'String'},
@@ -171,7 +171,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
         retrieveParameters([
           {name: 'campaignId', required:true},
           {name: 'title', required: true, dataType: 'String'},
-          {name: 'polygonDraw', required: true, dataType: 'any'},
+          {name: 'polygonDraw', required: true, dataType: 'String'},
           {name: 'owner', dataType: 'String'},
           {name: 'aboutMe' ,required: true, dataType: 'String'},
           {name: 'campaignGoals' ,required: true, dataType: 'String'},

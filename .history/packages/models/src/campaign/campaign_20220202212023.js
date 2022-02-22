@@ -1,11 +1,8 @@
 'use strict';
 
-
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
-  {model: Box} = require('../box/box'),
   ModelError = require('../modelError');
-
 
 //   Campaign Schema 
 
@@ -46,9 +43,10 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: [String],
+        type: String,
         trim: true,
-        required: true        
+        required: true,
+        enum: ['PM10', 'Wind speed']
     }  
 
 })
@@ -61,29 +59,41 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
      return savedCampaign;
 })}
 
+campaignSchema.statics.getBoxes = db.Boxes.find({
+    locations: {$geoWithin: {
+        type:"Polygon",
+        coordinates: 
+        [
+        [[13.199764430134934,52.747307491826916],
+        [12.989438713200741,52.56276787066673],
+        [13.182498462722009,52.535922734418875],
+        [13.199764430134934,52.747307491826916]]
+        ]
+    }}
+})
 
 
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
-        
-        let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
-        let boxes = await Box.find({
-            locations: {
-              $geoWithin: {
-                  $geometry: {
-                      type:"Polygon",
-                      coordinates: poly
-                  }
-              }
-          }
-      })
-      return boxes;
+// campaignSchema.statics.getBoxes = function getBoxes(opts= {}){
+//     const {polygonDraw} = opts,
+//     query= {};
 
-    ;}
+//     if(polygonDraw){
+//         query['polygonDraw'] = { '$geoWithin': {  '$geoemtry':
+//         { type:"Polygon",
+//           coordinates:
+//             [ 
+//                 [[13.167522890113815,52.74105740885352],
+//                 [13.017961690117318,52.56276787066673],
+//                 [13.272815792481651,52.543560844345166],
+//                 [13.167522890113815,52.74105740885352]]
+//         ]
+//     }                 
+// }
 
-        
-    
+//     }
+// }
+// console.log(query);
+// }
 
 //campaignSchema.methods.notifyallusers
 

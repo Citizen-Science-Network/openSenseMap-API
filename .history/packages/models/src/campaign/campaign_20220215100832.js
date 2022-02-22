@@ -16,7 +16,7 @@ const campaignSchema = new Schema({
         trim: true
     },
     polygonDraw: {
-        type: String, 
+        type: any, 
         required: true
     },
     owner: {
@@ -46,9 +46,10 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: [String],
+        type: String,
         trim: true,
-        required: true        
+        required: true,
+        enum: ['PM10', 'Wind speed']
     }  
 
 })
@@ -63,27 +64,41 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
 
 
 
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
-        
-        let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
-        let boxes = await Box.find({
-            locations: {
-              $geoWithin: {
-                  $geometry: {
-                      type:"Polygon",
-                      coordinates: poly
-                  }
-              }
-          }
-      })
-      return boxes;
+campaignSchema.statics.getBoxesWithin = function getBoxesWithin() {
 
-    ;}
-
-        
     
+    return Box.find({
+        locations: {
+            $geoWithin: {
+                $geometry: {
+                    type:"Polygon",
+                    coordinates: [
+                        [[13.188248248510575,52.61543806327472],
+                        [13.084843216461081,52.549306140705994],
+                        [13.216144089730506,52.5416489331277],
+                        [13.260199444783183,52.61938743260146],
+                        [13.188248248510575,52.61543806327472]]
+                    ]
+                }
+            }
+        }
+    })
+    
+    //return Box.find({_id: '5a914cfabc2d410019af5758'})
+    //  query['polygonDraw'] = { '$geoWithin': {  '$geometry':
+    //      { type:"Polygon",
+    //        coordinates:
+    //          [ 
+    //              [[13.167522890113815,52.74105740885352],
+    //              [13.017961690117318,52.56276787066673],
+    //              [13.272815792481651,52.543560844345166],
+    //              [13.167522890113815,52.74105740885352]]
+    //      ]
+    //  }}}
+    // console.log(query);
+    // return query;
+ }
+ 
 
 //campaignSchema.methods.notifyallusers
 

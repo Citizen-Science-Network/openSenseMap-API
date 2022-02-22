@@ -7,7 +7,7 @@ const usersController = require('./usersController'),
   measurementsController = require('./measurementsController'),
   managementController = require('./managementController'),
   campaignsController = require('./campaignsController'),
-  threadsController = require('./threadsController');
+  threadsController = reuqire('./threadsController');
 
 module.exports = {
   usersController,

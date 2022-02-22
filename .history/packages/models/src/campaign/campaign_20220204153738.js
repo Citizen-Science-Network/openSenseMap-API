@@ -1,9 +1,9 @@
 'use strict';
 
+const { query } = require('jsonpath');
 
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
-  {model: Box} = require('../box/box'),
   ModelError = require('../modelError');
 
 
@@ -46,9 +46,10 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: [String],
+        type: String,
         trim: true,
-        required: true        
+        required: true,
+        enum: ['PM10', 'Wind speed']
     }  
 
 })
@@ -63,27 +64,22 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
 
 
 
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
-        
-        let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
-        let boxes = await Box.find({
-            locations: {
-              $geoWithin: {
-                  $geometry: {
-                      type:"Polygon",
-                      coordinates: poly
-                  }
-              }
-          }
-      })
-      return boxes;
-
-    ;}
-
-        
-    
+campaignSchema.statics.getBoxesWithin = function getBoxesWithin(){
+     let query= {};
+     query['polygonDraw'] = { '$geoWithin': {  '$geometry':
+         { type:"Polygon",
+           coordinates:
+             [ 
+                 [[13.167522890113815,52.74105740885352],
+                 [13.017961690117318,52.56276787066673],
+                 [13.272815792481651,52.543560844345166],
+                 [13.167522890113815,52.74105740885352]]
+         ]
+     }}}
+     console.log(query);
+     return query;
+ }
+ 
 
 //campaignSchema.methods.notifyallusers
 

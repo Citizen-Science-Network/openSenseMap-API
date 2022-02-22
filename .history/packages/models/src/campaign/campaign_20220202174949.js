@@ -1,11 +1,8 @@
 'use strict';
 
-
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
-  {model: Box} = require('../box/box'),
   ModelError = require('../modelError');
-
 
 //   Campaign Schema 
 
@@ -46,9 +43,10 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: [String],
+        type: String,
         trim: true,
-        required: true        
+        required: true,
+        enum: ['PM10', 'Wind speed']
     }  
 
 })
@@ -60,30 +58,6 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
      console.log(savedCampaign); 
      return savedCampaign;
 })}
-
-
-
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
-        
-        let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
-        let boxes = await Box.find({
-            locations: {
-              $geoWithin: {
-                  $geometry: {
-                      type:"Polygon",
-                      coordinates: poly
-                  }
-              }
-          }
-      })
-      return boxes;
-
-    ;}
-
-        
-    
 
 //campaignSchema.methods.notifyallusers
 

@@ -150,7 +150,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
               { name: 'campaignDetails', dataType: 'String' },
               { name: 'startDate', dataType: ['RFC 3339']},
               { name: 'endDate', dataType: ['RFC 3339']},
-              { name: 'phenomena', dataType: ['String'] }
+              { name: 'phenomena', dataType: 'String' }
               
           ]),
           postNewCampaign

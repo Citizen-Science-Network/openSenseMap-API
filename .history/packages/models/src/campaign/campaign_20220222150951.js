@@ -16,7 +16,7 @@ const campaignSchema = new Schema({
         trim: true
     },
     polygonDraw: {
-        type: String, 
+        type: [Number], 
         required: true
     },
     owner: {
@@ -80,10 +80,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       })
       return boxes;
 
-    ;}
-
-        
-    
+    ;}   
+ 
 
 //campaignSchema.methods.notifyallusers
 

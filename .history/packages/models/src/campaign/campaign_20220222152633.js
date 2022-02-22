@@ -16,7 +16,7 @@ const campaignSchema = new Schema({
         trim: true
     },
     polygonDraw: {
-        type: String, 
+        type: [Number], 
         required: true
     },
     owner: {
@@ -66,8 +66,8 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
 campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         
         let campaign = await this.create(params);
-        let poly = JSON.parse(campaign.polygonDraw);
-               
+        let poly = campaign.polygonDraw;
+        console.log('BOXES '+ poly);       
         let boxes = await Box.find({
             locations: {
               $geoWithin: {
@@ -80,10 +80,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       })
       return boxes;
 
-    ;}
-
-        
-    
+    ;}   
+ 
 
 //campaignSchema.methods.notifyallusers
 

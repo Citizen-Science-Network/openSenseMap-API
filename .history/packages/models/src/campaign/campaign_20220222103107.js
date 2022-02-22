@@ -66,8 +66,10 @@ campaignSchema.statics.addCampaign= function addCampaign(params){
 campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         
         let campaign = await this.create(params);
+        console.log(campaign);
         let poly = JSON.parse(campaign.polygonDraw);
-               
+        console.log('POLY ' + typeof(poly) + ' ' + poly);
+       
         let boxes = await Box.find({
             locations: {
               $geoWithin: {
@@ -80,10 +82,51 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       })
       return boxes;
 
-    ;}
+    ;
 
-        
     
+     
+    
+    //   const polygon2 = async ()=>{
+    //      const pol = await polygon; 
+    //      console.log('POL' + pol);
+    //      return pol;
+    //   };
+
+    //  console.log(polygon2);     
+    
+    //   return Box.find({
+    //       locations: {
+    //         $geoWithin: {
+    //             $geometry: {
+    //                 type:"Polygon",
+    //                 coordinates: [ 
+    //                                   [[13.167522890113815,52.74105740885352],
+    //                                   [13.017961690117318,52.56276787066673],
+    //                                   [13.272815792481651,52.543560844345166],
+    //                                   [13.167522890113815,52.74105740885352]]
+    //                       ]
+    //             }
+    //         }
+    //     }
+    // })
+//})
+    
+    //return Box.find({_id: '5a914cfabc2d410019af5758'})
+    //  query['polygonDraw'] = { '$geoWithin': {  '$geometry':
+    //      { type:"Polygon",
+    //        coordinates:
+    //          [ 
+    //              [[13.167522890113815,52.74105740885352],
+    //              [13.017961690117318,52.56276787066673],
+    //              [13.272815792481651,52.543560844345166],
+    //              [13.167522890113815,52.74105740885352]]
+    //      ]
+    //  }}}
+    // console.log(query);
+    // return query;
+ }
+ 
 
 //campaignSchema.methods.notifyallusers
 

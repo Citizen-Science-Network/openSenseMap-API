@@ -6,8 +6,7 @@ const usersController = require('./usersController'),
   sensorsController = require('./sensorsController'),
   measurementsController = require('./measurementsController'),
   managementController = require('./managementController'),
-  campaignsController = require('./campaignsController'),
-  threadsController = require('./threadsController');
+  campaignsController = require('./campaignsController');
 
 module.exports = {
   usersController,
