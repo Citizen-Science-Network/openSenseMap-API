@@ -83,7 +83,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
           var boxID = boxes[i]._id;
           box_ids.push(boxID);
       }
-     
+      console.log(box_ids);
       
       return box_ids;
 

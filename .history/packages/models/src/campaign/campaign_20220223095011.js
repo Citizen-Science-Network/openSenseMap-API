@@ -78,14 +78,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
               }
           }
       })
-      var box_ids = []
-      for(let i =0; i<boxes.length; i++){
-          var boxID = boxes[i]._id;
-          box_ids.push(boxID);
-      }
-     
       
-      return box_ids;
+      return boxes;
 
     ;}
 
