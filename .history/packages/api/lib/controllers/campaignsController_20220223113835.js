@@ -13,8 +13,8 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
        let newCampaign = await Campaign.addCampaign(req._userParams);
        console.log("USER PARAMS POLYGON: " + req._userParams.polygonDraw);
        let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
-       //let foundUsers = await Campaign.getPolygonUsers();
-       res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes}});
+       let foundUsers = await Campaign.getPolygonUsers();
+       res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes, foundUsers}});
                  
      } catch (err) {
        handleError(err, next);

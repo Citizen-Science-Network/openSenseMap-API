@@ -1,11 +1,14 @@
 'use strict';
 
-const { Campaign } = require('../..');
-const handleError = require('../../../api/lib/helpers/errorHandler');
+const { default: got } = require('got/dist/source');
+
 
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
+  {model: Box} = require('../box/box'),
+  {model: User} = require('../user/user'),
   ModelError = require('../modelError');
+
 
 //   Campaign Schema 
 
@@ -14,6 +17,10 @@ const campaignSchema = new Schema({
         type: String,
         required:true,
         trim: true
+    },
+    polygonDraw: {
+        type: String, 
+        required: true
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -42,26 +49,57 @@ const campaignSchema = new Schema({
         type: Date
     },
     phenomena: {
-        type: String,
+        type: [String],
         trim: true,
-        required: true,
-        enum: ['PM10', 'Wind speed']
+        required: true        
     }  
 
 })
 
 campaignSchema.statics.addCampaign= function addCampaign(params){
      this.create(params).then(function (savedCampaign) {
-      
+      // request is valid
+      // persist the saved box in the user
      console.log(savedCampaign); 
      return savedCampaign;
 })}
 
-campaignSchema.statics.findCampaignById = function findCampaignById(){
-  const campaignId = '61b3217e3789bd025015e011';
-  let campaign = Campaign.findById(campaignId);
-  return campaign; 
+
+
+campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
+        
+        let campaign = await this.create(params);
+        let poly = JSON.parse(campaign.polygonDraw);
+               
+        let boxes = await Box.find({
+            locations: {
+              $geoWithin: {
+                  $geometry: {
+                      type:"Polygon",
+                      coordinates: poly
+                  }
+              }
+          }
+      })
+      var box_ids = []
+      for(let i =0; i<boxes.length; i++){
+          var boxID = boxes[i]._id;
+          box_ids.push(boxID);
+      }
+     
+      
+      return box_ids;
+
+    ;}
+
+campaignSchema.statics.getPolygonUsers = async function getPolygonUsers(){
+    let users = await User.find();
+    return users;
 }
+
+        
+    
+
 //campaignSchema.methods.notifyallusers
 
 const campaignModel = mongoose.model('Campaign', campaignSchema);

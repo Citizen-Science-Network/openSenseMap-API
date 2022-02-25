@@ -99,7 +99,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       const slackBody = await got
       .post(`https://slack.com/api/conversations.create?name=testfeb25new&is_private=false&pretty=1`, {
         json: {
-            "name": "testfeb25new",
+            "name": "testfeb25",
             "is_private": "false",
             "pretty": "1"
           },

@@ -96,19 +96,19 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       }
       console.log('USERMAILS '+ usermails);
 
-      const slackBody = await got
-      .post(`https://slack.com/api/conversations.create?name=testfeb25new&is_private=false&pretty=1`, {
-        json: {
-            "name": "testfeb25new",
-            "is_private": "false",
-            "pretty": "1"
-          },
-        headers: {
-            'Authorization': 'Bearer xoxp-2966864970930-2969169630004-3133437066116-e1d01bd7f41b169d33b63a7485b6755b'
-        }  
-      });
+    const response = await got.post('https://slack.com/api/conversations.create?name=testfeb26&is_private=false&pretty=1', {
+	    json: [
+            {
+              name: 'testFeb26'
+            }
+          ],
+          responseType: "json",
+          headers: {
+            "Authorization": "Bearer xoxp-2966864970930-2969169630004-3133437066116-e1d01bd7f41b169d33b63a7485b6755b"
+          }
+    })
 
-      console.log(slackBody);
+    console.log('RESPONSE' + response);   
       
     return box_ids;
 

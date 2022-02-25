@@ -96,19 +96,21 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       }
       console.log('USERMAILS '+ usermails);
 
-      const slackBody = await got
-      .post(`https://slack.com/api/conversations.create?name=testfeb25new&is_private=false&pretty=1`, {
-        json: {
-            "name": "testfeb25new",
+      const postNewChannel = async postNewChannel => {
+        try {
+         await got.post(
+          `https://slack.com/api/conversations.create?name=testfeb25new&is_private=false&pretty=1`,
+          { body: {
+            "name": "testfeb25",
             "is_private": "false",
             "pretty": "1"
-          },
-        headers: {
-            'Authorization': 'Bearer xoxp-2966864970930-2969169630004-3133437066116-e1d01bd7f41b169d33b63a7485b6755b'
-        }  
-      });
-
-      console.log(slackBody);
+          }, json: true }
+         );
+        } catch (e) {
+         throw e.response ? e.response.body : e;
+        }
+       }; 
+       console.log(postNewChannel); 
       
     return box_ids;
 

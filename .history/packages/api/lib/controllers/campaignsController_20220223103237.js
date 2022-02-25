@@ -13,7 +13,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
        let newCampaign = await Campaign.addCampaign(req._userParams);
        console.log("USER PARAMS POLYGON: " + req._userParams.polygonDraw);
        let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
-       //let foundUsers = await Campaign.getPolygonUsers();
+       Campaign.createSlackChannel();
        res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes}});
                  
      } catch (err) {

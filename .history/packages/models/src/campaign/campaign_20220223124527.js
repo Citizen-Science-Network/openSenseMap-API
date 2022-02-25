@@ -4,7 +4,6 @@
 
 const { mongoose } = require('../db'),
   Schema = mongoose.Schema,
-  got = require('got'),
   {model: Box} = require('../box/box'),
   {model: User} = require('../user/user'),
   ModelError = require('../modelError');
@@ -95,22 +94,9 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         usermails.push(usermail);  
       }
       console.log('USERMAILS '+ usermails);
-
-      const slackBody = await got
-      .post(`https://slack.com/api/conversations.create?name=testfeb25new&is_private=false&pretty=1`, {
-        json: {
-            "name": "testfeb25new",
-            "is_private": "false",
-            "pretty": "1"
-          },
-        headers: {
-            'Authorization': 'Bearer xoxp-2966864970930-2969169630004-3133437066116-e1d01bd7f41b169d33b63a7485b6755b'
-        }  
-      });
-
-      console.log(slackBody);
+     
       
-    return box_ids;
+      return box_ids;
 
     ;}
 
@@ -118,8 +104,6 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
 //     let users = await User.find();
 //     return users;
 // }
-
-
 
         
     
