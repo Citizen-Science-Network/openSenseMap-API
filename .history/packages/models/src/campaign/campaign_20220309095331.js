@@ -131,7 +131,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         //     "pretty": "1"
         //   },
         headers: {
-            'Authorization': 'Bearer xoxp-2966864970930-2969169630004-3210214631061-78a06416e882f460b4a09a44cc7af393'
+            'Authorization': 'Bearer xoxp-2966864970930-2969169630004-3146146642807-2911dffac1e37e881ac4a67ef5b1bea3'
         }  
       });
 
