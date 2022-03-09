@@ -101,8 +101,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'jmartin.unal@gmail.com',
-            pass: 'giirsqaxwqhjxqok'
+            user: 'dsmecuador2021@gmail.com',
+            pass: 'owqnrjtejcbtgpot'
         }
        });
     

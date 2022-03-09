@@ -101,8 +101,8 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
       let mailTransporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'jmartin.unal@gmail.com',
-            pass: 'giirsqaxwqhjxqok'
+            user: 'dsmecuador2021@gmail.com',
+            pass: 'owqnrjtejcbtgpot'
         }
        });
     
@@ -111,7 +111,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         to: 'j_raab02@uni-muenster.de',
         subject: 'Campaign Opensensemap',
         text: 'Hello, Javier wants you to join a new campaign;) ',
-        html: '<b>Clic here to join it! </b><br> Opensensemap link: <a href="https://join.slack.com/t/opensensemapcampaigns/shared_invite/zt-11uz1lkc3-w98lYPWGllA1iZdMVZFNzQ">link text</a>'
+        html: '<b>Clic here to join it! </b><br> Opensensemap link: <a href="https://opensensemap.org/">link text</a>'
     };
     
     mailTransporter.sendMail(mailDetails, function(err, data) {
