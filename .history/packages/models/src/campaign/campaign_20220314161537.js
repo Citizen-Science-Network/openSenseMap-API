@@ -17,7 +17,8 @@ const campaignSchema = new Schema({
     title: {
         type: String,
         required:true,
-        trim: true
+        trim: true,
+        unique: true
     },
     polygonDraw: {
         type: String, 
@@ -66,22 +67,21 @@ const campaignSchema = new Schema({
 
 })
 
-campaignSchema.statics.addCampaign= async function addCampaign(params){
-     let savedCampaign = this.create(params)
+campaignSchema.statics.addCampaign= function addCampaign(params){
+     this.create(params).then(function (savedCampaign) {
       // request is valid
       // persist the saved box in the user
-     console.log('SAVED ' + savedCampaign); 
+     console.log(savedCampaign); 
      return savedCampaign;
-}
+})}
 
 
 
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(newCampaign) {
+campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(campaign) {
         
         //let campaign = await this.create(params);
-        console.log('NEW CAMPAIGN ' + newCampaign);
-        let poly = JSON.parse(newCampaign.polygonDraw);
-        let campaigntitle = newCampaign.title;
+        let poly = JSON.parse(campaign.polygonDraw);
+        let campaigntitle = campaign.title;
                
         let boxes = await Box.find({
             locations: {
@@ -134,7 +134,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(newCampaig
     
 
       const slackBody = await got
-      .post(`https://slack.com/api/conversations.create?name=${campaigntitle}&is_private=false&pretty=1`, {
+      .post(`https://slack.com/api/conversations.create?name=${campaigntitle}&is_private=false&is_general=true&is_shared=true&is_org_shared=true&pretty=1`, {
         // json: {
         //     "name": ${campaigntitle},
         //     "is_private": "false",

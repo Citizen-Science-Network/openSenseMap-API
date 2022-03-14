@@ -12,7 +12,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
     try {
        let newCampaign = await Campaign.addCampaign(req._userParams);
        console.log("USER PARAMS POLYGON: " + req._userParams.polygonDraw);
-       let foundBoxes = await Campaign.getBoxesWithin(newCampaign);
+       let foundBoxes = await Campaign.getBoxesWithin(req._userParams);
        //let foundUsers = await Campaign.getPolygonUsers();
        res.send(201, { message: 'Campaign successfully created', data: {newCampaign, foundBoxes}});
                  
@@ -152,8 +152,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
               { name: 'startDate', dataType: ['RFC 3339']},
               { name: 'endDate', dataType: ['RFC 3339']},
               { name: 'phenomena', dataType: ['String'] },
-              { name: 'participants', dataType: ['String']},
-              {name: 'image', required:true, dataType: 'String'}
+              { name: 'participants', dataType: ['String']}
               
           ]),
           postNewCampaign
@@ -182,8 +181,7 @@ const postNewCampaign = async function postNewCampaign (req, res, next) {
           {name: 'startDate' ,required: true, dataType: ['RFC 3339']},
           {name: 'endDate' ,dataType: ['RFC 3339']},
           {name: 'phenomena', required: true, dataType: ['String']},
-          {name: 'participants', dataType: ['String']},
-          {name: 'image', required: true, dataType: 'String'}
+          {name: 'participants', dataType: ['String']}
 
         ]),
         updateCampaign

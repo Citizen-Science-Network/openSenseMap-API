@@ -66,22 +66,22 @@ const campaignSchema = new Schema({
 
 })
 
-campaignSchema.statics.addCampaign= async function addCampaign(params){
-     let savedCampaign = this.create(params)
+campaignSchema.statics.addCampaign= function addCampaign(params){
+     this.create(params).then(function (savedCampaign) {
       // request is valid
       // persist the saved box in the user
-     console.log('SAVED ' + savedCampaign); 
+     console.log(savedCampaign); 
      return savedCampaign;
-}
+})}
 
 
 
-campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(newCampaign) {
+campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         
-        //let campaign = await this.create(params);
-        console.log('NEW CAMPAIGN ' + newCampaign);
-        let poly = JSON.parse(newCampaign.polygonDraw);
-        let campaigntitle = newCampaign.title;
+        let campaign = await this.create(params);
+        
+        let poly = JSON.parse(campaign.polygonDraw);
+        let campaigntitle = campaign.title;
                
         let boxes = await Box.find({
             locations: {
