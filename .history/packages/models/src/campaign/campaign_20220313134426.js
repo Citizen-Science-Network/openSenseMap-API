@@ -111,7 +111,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
         to: usermails,
         subject: 'Campaign Opensensemap',
         text: 'Hello, you have received an invitation to join a new campaign;) ',
-        html: '<b>Click here to join it! </b><br> Opensensemap link: <a href="https://join.slack.com/t/opensensemapcampaigns/shared_invite/zt-158wrl8ib-qoRkrF5W2a1lZ8DdMoz64A">link text</a>'
+        html: '<b>Click here to join it! </b><br> Opensensemap link: <a href="https://join.slack.com/t/opensensemapcampaigns/shared_invite/zt-11uz1lkc3-w98lYPWGllA1iZdMVZFNzQ">link text</a>'
     };
     
     mailTransporter.sendMail(mailDetails, function(err, data) {
@@ -124,7 +124,7 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
     
 
       const slackBody = await got
-      .post(`https://slack.com/api/conversations.create?name=${campaigntitle}&is_private=false&is_general=true&is_shared=true&is_org_shared=true&pretty=1`, {
+      .post(`https://slack.com/api/conversations.create?name=${campaigntitle}&is_private=false&pretty=1`, {
         // json: {
         //     "name": ${campaigntitle},
         //     "is_private": "false",
@@ -140,6 +140,18 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
     return box_ids;
 
     ;}
+
+// campaignSchema.statics.getPolygonUsers = async function getPolygonUsers(){
+//     let users = await User.find();
+//     return users;
+// }
+
+
+
+        
+    
+
+//campaignSchema.methods.notifyallusers
 
 const campaignModel = mongoose.model('Campaign', campaignSchema);
 

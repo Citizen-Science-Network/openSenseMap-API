@@ -141,6 +141,18 @@ campaignSchema.statics.getBoxesWithin = async function getBoxesWithin(params) {
 
     ;}
 
+// campaignSchema.statics.getPolygonUsers = async function getPolygonUsers(){
+//     let users = await User.find();
+//     return users;
+// }
+
+
+
+        
+    
+
+//campaignSchema.methods.notifyallusers
+
 const campaignModel = mongoose.model('Campaign', campaignSchema);
 
 
